@@ -1,0 +1,27 @@
+{
+  "name": "testhelper",
+  "version": "1.0.0",
+  "description": "JS Script to help with Selenium IDE &amp; CLI testing (still in progress)",
+  "main": "TestHelpers.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "jsdoc -c ./jsdoc-conf.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carrollbradford/Selenium--TestHelper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carrollbradford/Selenium--TestHelper/issues"
+  },
+  "homepage": "https://github.com/carrollbradford/Selenium--TestHelper#readme",
+  "devDependencies": {
+    "jsdoc": "^3.6.10"
+  },
+  "dependencies": {
+    "tui-jsdoc-template": "^1.2.2"
+  }
+}
