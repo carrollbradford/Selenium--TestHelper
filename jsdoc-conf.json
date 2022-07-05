@@ -1,22 +1,25 @@
 {
     "tags": {
-        "allowUnknownTags": true
+        "allowUnknownTags": true,
+        "dictionaries": ["jsdoc","closure"]
     },
     "source": {
         "include": ["./js"],
-        "includePattern": ".+\\.js|\\.vue?$",
+        "exclude": ["./TestHelpers.min.js"],
+        "includePattern": ".+\\.js(doc|x)?$",
         "excludePattern": "(^|\\/|\\\\)_"
     },
     "plugins": [
         "plugins/markdown"
     ],
     "templates": {
-        "cleverLinks": true,
+        "cleverLinks": false,
         "monospaceLinks": false
     },
     "opts": {
         "recurse": true,
         "destination": "./docs",
         "template": "./node_modules/tui-jsdoc-template"
-    }
+    },
+    "sourceType": "script"
 }

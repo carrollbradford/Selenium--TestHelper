@@ -1,14 +1,17 @@
 /**
- * Adds all the helper methods to the DOM and access via __helper.methodName();
- * @class
+ * @class __helper
+ * @description Adds all the helper methods to the DOM and access via __helper.methodName();
+ * @example __helper.select('.hello').setValue('int') --> an element with class .hello (input) will be set with a random int. for functions and manipulation see global.
+ * @see https://github.com/carrollbradford/Selenium--TestHelper
+ *
  */
 (function (win, helper) {
   /**
    * If element is visible/ in viewport
    * @private
    * @author Based on https://www.javascripttutorial.net/dom/css/check-if-an-element-is-visible-in-the-viewport/
-   * @param {Object} element
-   * @return {Boolean}
+   * @param {object} element
+   * @return {boolean}
    */
   function _isInViewport(element) {
     let el = element.getBoundingClientRect();
@@ -23,9 +26,9 @@
   /**
    * If is an instance, then select the correct selector
    * @private
-   * @param {String} selector
-   * @param {Object} $this
-   * @return {String}
+   * @param {string} selector
+   * @param {object} $this
+   * @return {string}
    */
   function _getSelector(selector, $this) {
     if ($this.selector) {
@@ -37,10 +40,10 @@
   /**
    * If is an instance, then select the second var as the value
    * @private
-   * @param {String} var1
-   * @param {String} var2
-   * @param {Object} $this
-   * @return {String|Null}
+   * @param {string} var1
+   * @param {string} var2
+   * @param {object} $this
+   * @return {string|null}
    */
   function _getVar(var1, var2, $this) {
     /* 
@@ -54,13 +57,13 @@
   /**
    * Get the Element object instance
    * @private
-   * @param {String|Object} var1
-   * @return {Object}
+   * @param {string|object} var1
+   * @return {object}
    */
   function _$(selector) {
     if (typeof selector === "object") {
       return selector;
-    } else if (String(selector).includes("//")) {
+    } else if (string(selector).includes("//")) {
       return helper.getElementByXpath(selector);
     } else {
       return document.querySelector(selector);
@@ -69,7 +72,8 @@
 
   /**
    * Get The current host url
-   * @return {String}
+   * @function getHost
+   * @return {string}
    */
   helper.getHost = function () {
     const PROTOCOL = win.location.protocol.replace(":", "");
@@ -79,7 +83,9 @@
 
   /**
    * Store values for later use during the session
-   * @param {String} id
+   * @function store
+   * @example __helper.store(id, item)
+   * @param {string} id
    * @param {Any} item
    * @return {Any}
    */
@@ -89,6 +95,8 @@
 
   /**
    * Get stored value from the session
+   * @example __helper.fetch(id)
+   * @function fetch
    * @return {Any}
    */
   helper.fetch = function (id) {
@@ -97,10 +105,12 @@
 
   /**
    * Get the element xpath string
-   * @param {Object} element
+   * @function getXpathTo
+   * @example __helper.getXpathTo(DOMElement)
+   * @param {object} element
    * @author Based on https://stackoverflow.com/questions/2631820/how-do-i-ensure-saved-click-coordinates-can-be-reload-to-the-same-place-even-if/2631931#2631931
    * @example getXpathTo(document.getElementByClass('div.hello'));
-   * @return {String}
+   * @return {string}
    */
   helper.getXpathTo = function (element) {
     if (element.id) {
@@ -132,9 +142,10 @@
 
   /**
    * Find element by Xpath string
-   * @param {String} xpath
+   * @function getElementByXpath
+   * @param {string} xpath
    * @example getElementByXpath("//html[1]/body[1]/div[1]")
-   * @return {Object}
+   * @return {object}
    */
   helper.getElementByXpath = function (xpath) {
     return document.evaluate(
@@ -148,8 +159,10 @@
 
   /**
    * Escape the string to avoid collisions
-   * @param {String} string
-   * @return {String}
+   * @function escape
+   * @example __helper.escape(string)
+   * @param {string} string
+   * @return {string}
    */
   helper.escape = function (string) {
     return String(string.replace(/"/g, '\\"').replace(/'/g, "\\'"));
@@ -157,10 +170,11 @@
 
   /**
    * To get a Select or dropdown Option
-   * @param {String} selector Id, class, pseudo
-   * @param {String} type Option text, xpath or value, default is text
-   * @example getDropdownOption('#hello', 'value');
-   * @return {String} Returns the Xpath string
+   * @function getDropdownOption
+   * @param {string} selector Id, class, pseudo
+   * @param {string} type Option text, xpath or value, default is text
+   * @example __helper.getDropdownOption('#hello', 'value') ||  __helper.select(class|selector|id).getDropdownOption('value');
+   * @return {string} Returns the Xpath string
    */
   helper.getDropdownOption = function (selector, type) {
     type = _getVar(selector, type, this);
@@ -183,10 +197,11 @@
 
   /**
    * Get an element attribute or value
-   * @param {String} selector Id, class, pseudo
-   * @param {String} attr Option text, xpath or value, default is text
-   * @example getElementAttr('#hello', 'value');
-   * @return {String|Null}
+   * @function getElementAttr
+   * @example __helper.getElementAttr('#hello', 'value') ||  __helper.select(class|selector|id).getElementAttr('value');
+   * @param {string} selector Id, class, pseudo
+   * @param {string} attr Option text, xpath or value, default is text
+   * @return {string|null}
    */
   helper.getElementAttr = function (selector, attr) {
     attr = _getVar(selector, attr, this);
@@ -212,9 +227,10 @@
 
   /**
    * Get a single element that match the id
-   * @param {String} selector Id, class, pseudo
-   * @example getElement('#hello');
-   * @return {Object}
+   * @function getElement
+   * @example __helper.getElement('#hello') ||  __helper.select(class|selector|id).getElement();
+   * @param {string} selector Id, class, pseudo
+   * @return {object}
    */
   helper.getElement = function (selector) {
     return _$(_getSelector(selector, this));
@@ -222,9 +238,10 @@
 
   /**
    * Get an array of Elements by xpath
-   * @param {String} selector Id, class, pseudo
-   * @example getElements('.hello');
-   * @return {Object}
+   * @function getElements
+   * @example __helper.getElements('.hello') ||  __helper.select(class|selector|id).getElements();
+   * @param {string} selector Id, class, pseudo
+   * @return {object}
    */
   helper.getElements = function (selector) {
     selector = _getSelector(selector, this);
@@ -248,9 +265,10 @@
 
   /**
    * Get the amount of elements present in the DOM
-   * @param {String} selector Id, class, pseudo
-   * @example getCount('.table tr');
-   * @return {Number}
+   * @function getCount
+   * @example __helper.getCount('.hello')
+   * @param {string} selector Id, class, pseudo
+   * @return {number}
    */
   helper.getCount = function (selector) {
     return document.querySelectorAll(_getSelector(selector, this)).length;
@@ -258,6 +276,7 @@
 
   /**
    * Generate random number
+   * @function randomNumber
    * @return {Int}
    */
   helper.randomNumber = function () {
@@ -266,6 +285,7 @@
 
   /**
    * Generate random Zipcode
+   * @function randomZip
    * @return {Int}
    */
   helper.randomZip = function () {
@@ -274,9 +294,11 @@
 
   /**
    * Generate random text
+   * @function randomText
+   * @example __helper.randomText(50)
    * @param {Int} length Lenght of string
    * @example randomText(50);
-   * @return {String}
+   * @return {string}
    */
   helper.randomText = function (length) {
     length = !length ? 10 : length;
@@ -293,9 +315,10 @@
 
   /**
    * Click all elements that mathch the id
-   * @param {String} selector Id, class, pseudo
-   * @param {String} hasClass Optional
-   * @example clickElements('#hello');
+   * @function clickElements
+   * @example __helper.clickElements('.hello') ||  __helper.select(class|selector|id).clickElements();
+   * @param {string} selector Id, class, pseudo
+   * @param {string} hasClass Optional
    * @return {Void}
    */
   helper.clickElements = function (selector, hasClass) {
@@ -320,9 +343,10 @@
 
   /**
    * Click one elements that matches the id
-   * @param {String} selector Id, class, pseudo
-   * @example clickElement('#hello');
-   * @return {String}
+   * @function clickElement
+   * @example __helper.clickElement('.hello') ||  __helper.select(class|selector|id).clickElement();
+   * @param {string} selector Id, class, pseudo
+   * @return {string}
    */
   helper.clickElement = function (selector) {
     selector = _getSelector(selector, this);
@@ -337,10 +361,12 @@
 
   /**
    * Set any element value
-   * @param {String} selector Id, class, pseudo
-   * @param {String} valueOrType Can be "text", "int" or an actual value (any)
+   * @function setValue
+   * @example __helper.setValue('element', 'hello') ||  __helper.select(class|selector|id).setValue(value);
+   * @param {string} selector Id, class, pseudo
+   * @param {string} valueOrType Can be "text", "int" or an actual value (any)
    * @example setValue('element', 'hello');
-   * @return {Object} This instance
+   * @return {object} This instance
    */
   helper.setValue = function (selector, valueOrType) {
     valueOrType = _getVar(selector, valueOrType, this);
@@ -367,9 +393,11 @@
   };
 
   /**
-   * Create an instance with an element Selector (id, class, pseudo...)
-   * @param {String|object} selector Selector (id, class, pseudo, object)
-   * @return {Object} New Instance of helper
+   * Create an instance with an element Selector (id, class, pseudo...) and chain it with selected methods
+   * @function select
+   * @example __helper.select('element')
+   * @param {string|object} selector Selector (id, class, pseudo, object)
+   * @return {object} New Instance of helper
    */
   helper.select = function (selector) {
     if (typeof selector !== "object") {
